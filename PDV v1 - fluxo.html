@@ -9,84 +9,91 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { overflow: hidden; background: #ffffff; font-family: 'Inter', sans-serif; }
   body { display: flex; align-items: center; justify-content: center; }
+
   @media (prefers-color-scheme: dark) {
     html, body { background: #1a1a18; }
     .label { color: #e8e6dc !important; }
     .badge { background: #083320 !important; color: #5DCAA5 !important; border-color: #0F6E56 !important; }
   }
 
-  .wrapper { padding: 2rem 2.5rem 2rem; }
+  .wrapper {
+    width: 100%;
+    padding: 1.25rem 1rem 1rem;
+  }
 
   .flow {
     display: flex;
     align-items: center;
+    justify-content: center;
+    width: 100%;
   }
 
   .slot {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: clamp(4px, 1vw, 8px);
+    flex: 1;
+    min-width: 0;
   }
 
   .circle {
-    width: 72px;
-    height: 72px;
+    width: clamp(36px, 7vw, 60px);
+    height: clamp(36px, 7vw, 60px);
     border-radius: 50%;
     background: #F5A623;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 16px rgba(245,166,35,0.35);
+    box-shadow: 0 3px 12px rgba(245,166,35,0.35);
     flex-shrink: 0;
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(6px);
     transition: opacity 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
   }
   .circle.visible { opacity: 1; transform: translateY(0); }
-  .circle.active  { box-shadow: 0 0 0 4px rgba(245,166,35,0.35), 0 4px 20px rgba(245,166,35,0.5); }
-  .circle svg { width: 28px; height: 28px; }
+  .circle.active  { box-shadow: 0 0 0 3px rgba(245,166,35,0.4), 0 3px 16px rgba(245,166,35,0.5); }
+  .circle svg {
+    width: clamp(14px, 3vw, 24px);
+    height: clamp(14px, 3vw, 24px);
+  }
 
   .label {
-    font-size: 11px;
+    font-size: clamp(8px, 1.1vw, 11px);
     font-weight: 600;
     color: #2c2c2a;
     white-space: nowrap;
     opacity: 0;
     transition: opacity 0.35s ease;
+    text-align: center;
   }
   .label.visible { opacity: 1; }
 
-  /* badge below label — hidden by default */
   .badge {
-    font-size: 11px;
+    font-size: clamp(8px, 1vw, 10px);
     font-weight: 500;
     color: #0F6E56;
     background: #E1F5EE;
     border: 0.5px solid #9FE1CB;
     border-radius: 20px;
-    padding: 3px 10px;
+    padding: clamp(2px, 0.3vw, 3px) clamp(6px, 1vw, 10px);
     white-space: nowrap;
     opacity: 0;
     transform: translateY(4px);
     transition: opacity 0.3s ease, transform 0.3s ease;
-    pointer-events: none;
   }
-  .badge.active {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  .badge.active { opacity: 1; transform: translateY(0); }
 
   .connector {
     flex-shrink: 0;
-    margin-bottom: 44px;
+    margin-bottom: clamp(28px, 5vw, 44px);
     opacity: 0;
     transition: opacity 0.3s ease;
   }
   .connector.visible { opacity: 1; }
 
   .line {
-    width: 48px;
+    width: clamp(10px, 2.5vw, 32px);
     height: 3px;
     background: linear-gradient(90deg, #c8860a, #8B5E00);
     position: relative;
@@ -97,9 +104,9 @@
     right: -1px;
     top: 50%;
     transform: translateY(-50%);
-    border-left: 8px solid #8B5E00;
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
+    border-left: 7px solid #8B5E00;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
   }
 </style>
 </head>
@@ -196,43 +203,28 @@ steps.forEach((s, i) => {
   }
 });
 
-// sequence: show step → show line → (on next step) hide prev badge → show step → ...
-let current = 0;
-let activeBadge = -1;
-
 const sequence = [];
 steps.forEach((_, i) => {
   sequence.push({ type: 'step', idx: i });
   if (i < steps.length - 1) sequence.push({ type: 'line', idx: i });
 });
 
+let current = 0;
 const STEP_DELAY = 650;
 const HOLD_TIME  = 2000;
 const RESET_FADE = 400;
 
 function showNext() {
-  if (current >= sequence.length) {
-    setTimeout(reset, HOLD_TIME);
-    return;
-  }
-
+  if (current >= sequence.length) { setTimeout(reset, HOLD_TIME); return; }
   const item = sequence[current];
-
   if (item.type === 'step') {
-    circleEls[item.idx].classList.add('visible');
-    circleEls[item.idx].classList.add('active');
+    circleEls[item.idx].classList.add('visible', 'active');
     labelEls[item.idx].classList.add('visible');
-
-    // show badge — persists until reset
     setTimeout(() => badgeEls[item.idx].classList.add('active'), 200);
-
-    // deactivate circle glow after a moment
     setTimeout(() => circleEls[item.idx].classList.remove('active'), 900);
-
   } else {
     lineEls[item.idx].classList.add('visible');
   }
-
   current++;
   setTimeout(showNext, STEP_DELAY);
 }
@@ -242,11 +234,10 @@ function reset() {
   wrapper.style.transition = `opacity ${RESET_FADE}ms ease`;
   wrapper.style.opacity = '0';
   setTimeout(() => {
-    circleEls.forEach(e => { e.classList.remove('visible'); e.classList.remove('active'); });
+    circleEls.forEach(e => e.classList.remove('visible', 'active'));
     labelEls.forEach(e => e.classList.remove('visible'));
     badgeEls.forEach(e => e.classList.remove('active'));
     lineEls.forEach(e => e.classList.remove('visible'));
-    activeBadge = -1;
     current = 0;
     wrapper.style.opacity = '1';
     setTimeout(showNext, 300);
