@@ -3,404 +3,420 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PDV — Comparativo V1 vs V2</title>
+<title>PDV & E-commerce — Comparativo V1 vs V2</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #ffffff;
-    --bg2: #f5f4f0;
-    --bg3: #eeecea;
-    --text: #1a1a18;
-    --text2: #6b6a64;
-    --text3: #9c9a92;
-    --border: rgba(0,0,0,0.10);
-    --border2: rgba(0,0,0,0.18);
-    --blue-bg: #E6F1FB;
-    --blue-text: #185FA5;
-    --green-bg: #E1F5EE;
-    --green-text: #0F6E56;
-    --radius: 8px;
-    --radius-lg: 12px;
+    --bg: #ffffff; --bg2: #f5f4f0; --bg3: #eeecea;
+    --text: #1a1a18; --text2: #6b6a64; --text3: #9c9a92;
+    --border: rgba(0,0,0,0.10); --border2: rgba(0,0,0,0.18);
+    --blue-bg: #E6F1FB; --blue-text: #185FA5;
+    --green-bg: #E1F5EE; --green-text: #0F6E56;
+    --amber-bg: #FAEEDA; --amber-text: #854F0B;
+    --radius: 8px; --radius-lg: 12px;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #1e1e1c;
-      --bg2: #282825;
-      --bg3: #323230;
-      --text: #e8e6dc;
-      --text2: #9c9a92;
-      --text3: #6b6a64;
-      --border: rgba(255,255,255,0.10);
-      --border2: rgba(255,255,255,0.18);
-      --blue-bg: #0c3356;
-      --blue-text: #85B7EB;
-      --green-bg: #083320;
-      --green-text: #5DCAA5;
+      --bg: #1e1e1c; --bg2: #282825; --bg3: #323230;
+      --text: #e8e6dc; --text2: #9c9a92; --text3: #6b6a64;
+      --border: rgba(255,255,255,0.10); --border2: rgba(255,255,255,0.18);
+      --blue-bg: #0c3356; --blue-text: #85B7EB;
+      --green-bg: #083320; --green-text: #5DCAA5;
+      --amber-bg: #412402; --amber-text: #FAC775;
     }
   }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: var(--bg3);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 2rem 1rem;
-  }
-  .page {
-    max-width: 1100px;
-    margin: 0 auto;
-    background: var(--bg);
-    border-radius: 16px;
-    border: 0.5px solid var(--border);
-    padding: 2rem 2rem 2.5rem;
-  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg3); color: var(--text); min-height: 100vh; padding: 2rem 1rem; }
+  .page { max-width: 1200px; margin: 0 auto; background: var(--bg); border-radius: 16px; border: 0.5px solid var(--border); padding: 2rem 2rem 2.5rem; }
   .header { margin-bottom: 1.75rem; }
   .header h1 { font-size: 20px; font-weight: 600; color: var(--text); }
   .header p { font-size: 13px; color: var(--text2); margin-top: 5px; }
+
+  /* summary cards */
   .summary-row { display: flex; gap: 12px; margin-bottom: 1.5rem; flex-wrap: wrap; }
-  .stat-card {
-    flex: 1; min-width: 110px;
-    background: var(--bg2);
-    border-radius: var(--radius);
-    padding: 12px 16px;
-    border: 0.5px solid var(--border);
-  }
+  .stat-card { flex: 1; min-width: 110px; background: var(--bg2); border-radius: var(--radius); padding: 12px 16px; border: 0.5px solid var(--border); }
   .stat-card .num { font-size: 24px; font-weight: 600; color: var(--text); }
   .stat-card .num.blue { color: var(--blue-text); }
   .stat-card .num.green { color: var(--green-text); }
+  .stat-card .num.amber { color: var(--amber-text); }
   .stat-card .lbl { font-size: 11px; color: var(--text2); margin-top: 3px; }
-  .tab-bar {
-    display: flex;
-    border-bottom: 0.5px solid var(--border);
-    margin-bottom: 1.25rem;
-  }
-  .tab {
-    font-size: 13px;
-    padding: 7px 18px;
-    cursor: pointer;
-    color: var(--text2);
-    border-bottom: 2px solid transparent;
-    margin-bottom: -0.5px;
-    transition: all .15s;
-    user-select: none;
-    background: none;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-  }
+
+  /* tabs */
+  .tab-bar { display: flex; border-bottom: 0.5px solid var(--border); margin-bottom: 1.25rem; }
+  .tab { font-size: 13px; padding: 7px 18px; cursor: pointer; color: var(--text2); border-bottom: 2px solid transparent; margin-bottom: -0.5px; transition: all .15s; user-select: none; background: none; border-top: none; border-left: none; border-right: none; }
   .tab.active { color: var(--text); border-bottom-color: var(--text); font-weight: 500; }
   .tab:hover:not(.active) { color: var(--text); }
   .view { display: none; }
   .view.active { display: block; }
-  .filters {
-    display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap; align-items: center;
-  }
+
+  /* filters */
+  .filters { display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap; align-items: center; }
   .filter-label { font-size: 12px; color: var(--text2); margin-right: 2px; }
-  .chip {
-    font-size: 12px;
-    padding: 4px 12px;
-    border-radius: 20px;
-    border: 0.5px solid var(--border2);
-    background: var(--bg2);
-    color: var(--text2);
-    cursor: pointer;
-    transition: all .15s;
-    user-select: none;
-  }
-  .chip.active {
-    background: var(--blue-bg);
-    color: var(--blue-text);
-    border-color: var(--blue-text);
-  }
+  .chip { font-size: 12px; padding: 4px 12px; border-radius: 20px; border: 0.5px solid var(--border2); background: var(--bg2); color: var(--text2); cursor: pointer; transition: all .15s; user-select: none; }
+  .chip.active { background: var(--blue-bg); color: var(--blue-text); border-color: var(--blue-text); }
   .chip:hover:not(.active) { background: var(--bg3); }
-  .divider { width: 1px; height: 20px; background: var(--border); margin: 0 4px; align-self: center; }
+
+  /* table */
   .table-wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 900px; }
-  thead th {
-    padding: 8px 10px;
-    text-align: left;
-    font-weight: 500;
-    font-size: 11px;
-    color: var(--text2);
-    border-bottom: 0.5px solid var(--border);
-    white-space: nowrap;
-    position: sticky;
-    top: 0;
-    background: var(--bg);
-    z-index: 1;
-  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { padding: 8px 10px; text-align: left; font-weight: 500; font-size: 11px; color: var(--text2); border-bottom: 0.5px solid var(--border); white-space: nowrap; background: var(--bg); }
   thead th.center { text-align: center; }
-  thead .version-v1 { color: var(--blue-text); }
-  thead .version-v2 { color: var(--green-text); }
+  thead .v1 { color: var(--blue-text); }
+  thead .v2 { color: var(--green-text); }
   tbody tr { border-bottom: 0.5px solid var(--border); transition: background .1s; }
   tbody tr:hover { background: var(--bg2); }
   tbody tr.hidden { display: none; }
   td { padding: 7px 10px; vertical-align: middle; }
-  td.pdv-name { font-weight: 500; color: var(--text); font-size: 13px; white-space: nowrap; }
+  td.name { font-weight: 500; color: var(--text); font-size: 13px; white-space: nowrap; }
   td.center { text-align: center; }
-  .badge-yes {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 20px; height: 20px; border-radius: 50%;
-    background: var(--green-bg);
-  }
-  .badge-yes svg { width: 11px; height: 11px; stroke: var(--green-text); stroke-width: 2.5; fill: none; }
-  .badge-no {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 20px; height: 20px; border-radius: 50%;
-    background: var(--bg2);
-  }
-  .badge-no svg { width: 10px; height: 10px; stroke: var(--text3); stroke-width: 2; fill: none; }
-  .badge-na {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 20px; height: 20px;
-    color: var(--text3);
-    font-size: 12px;
-  }
-  .vtag {
-    display: inline-block;
-    font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 500;
-  }
+
+  /* badges */
+  .vtag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 500; }
   .vtag.v1 { background: var(--blue-bg); color: var(--blue-text); }
   .vtag.v2 { background: var(--green-bg); color: var(--green-text); }
-  .legend {
-    display: flex; gap: 18px; margin-top: 1rem;
-    font-size: 12px; color: var(--text2); flex-wrap: wrap;
-  }
+  .stag { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 4px; font-weight: 500; }
+  .stag.prod { background: var(--green-bg); color: var(--green-text); }
+  .stag.prog { background: var(--amber-bg); color: var(--amber-text); }
+
+  .badge-yes { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--green-bg); }
+  .badge-yes svg { width: 11px; height: 11px; stroke: var(--green-text); stroke-width: 2.5; fill: none; }
+  .badge-no { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--bg2); }
+  .badge-no svg { width: 10px; height: 10px; stroke: var(--text3); stroke-width: 2; fill: none; }
+  .badge-maybe { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; }
+  .badge-maybe span { font-size: 13px; color: var(--amber-text); font-weight: 600; }
+  .badge-na { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; color: var(--text3); font-size: 12px; }
+
+  /* legend */
+  .legend { display: flex; gap: 18px; margin-top: 1rem; font-size: 12px; color: var(--text2); flex-wrap: wrap; }
   .legend-item { display: flex; align-items: center; gap: 6px; }
+
   /* diff table */
   .diff-table td, .diff-table th { padding: 7px 12px; }
   .diff-table tbody tr { border-bottom: 0.5px solid var(--border); transition: background .1s; }
   .diff-table tbody tr:hover { background: var(--bg2); }
   .diff-table tbody tr.gain { background: color-mix(in srgb, var(--green-bg) 30%, transparent); }
   .diff-table tbody tr.gain:hover { background: color-mix(in srgb, var(--green-bg) 50%, transparent); }
-  .diff-indicator {
-    font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 4px;
-    display: inline-block;
-  }
-  .new-feature { background: var(--green-bg); color: var(--green-text); }
-  .same-feature { background: var(--bg2); color: var(--text2); }
-  .feat-col { font-size: 13px; color: var(--text); }
+  .diff-indicator { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 4px; display: inline-block; }
+  .new-feat { background: var(--green-bg); color: var(--green-text); }
+  .same-feat { background: var(--bg2); color: var(--text2); }
   .count-v1 { font-size: 13px; color: var(--blue-text); font-weight: 500; }
   .count-v2 { font-size: 13px; color: var(--green-text); font-weight: 500; }
-  footer {
-    margin-top: 2rem;
-    font-size: 11px; color: var(--text3);
-    text-align: right;
-  }
+
+  footer { margin-top: 2rem; font-size: 11px; color: var(--text3); text-align: right; }
 </style>
 </head>
 <body>
 <div class="page">
   <div class="header">
-    <h1>PDV — Comparativo V1 vs V2</h1>
+    <h1>PDV & E-commerce — Comparativo V1 vs V2</h1>
     <p>Cobertura de funcionalidades por integração e versão</p>
   </div>
 
-  <div class="summary-row">
-    <div class="stat-card"><div class="num blue">14</div><div class="lbl">PDVs na V1</div></div>
-    <div class="stat-card"><div class="num green">5</div><div class="lbl">PDVs na V2</div></div>
-    <div class="stat-card"><div class="num">4</div><div class="lbl">Features novas na V2</div></div>
-    <div class="stat-card"><div class="num">16</div><div class="lbl">Features mapeadas</div></div>
-  </div>
-
   <div class="tab-bar">
-    <button class="tab active" onclick="switchTab('matrix', this)">Matriz de features</button>
-    <button class="tab" onclick="switchTab('diff', this)">O que muda na V2</button>
+    <button class="tab active" onclick="switchTab('pdv', this)">PDV</button>
+    <button class="tab" onclick="switchTab('ecom', this)">E-commerce</button>
+    <button class="tab" onclick="switchTab('diff-pdv', this)">Diff PDV</button>
+    <button class="tab" onclick="switchTab('diff-ecom', this)">Diff E-commerce</button>
   </div>
 
-  <!-- MATRIZ -->
-  <div id="view-matrix" class="view active">
-    <div class="filters">
-      <span class="filter-label">PDVs:</span>
-      <div class="chip active" onclick="filterPDV('all', this)">Todos</div>
-      <div class="chip" onclick="filterPDV('v1only', this)">Somente V1</div>
-      <div class="chip" onclick="filterPDV('v2', this)">Somente V2</div>
+  <!-- ========== PDV ========== -->
+  <div id="view-pdv" class="view active">
+    <div class="summary-row">
+      <div class="stat-card"><div class="num blue">14</div><div class="lbl">PDVs na V1</div></div>
+      <div class="stat-card"><div class="num green">5</div><div class="lbl">PDVs na V2</div></div>
+      <div class="stat-card"><div class="num">15</div><div class="lbl">Features mapeadas</div></div>
     </div>
-
+    <div class="filters">
+      <span class="filter-label">Filtrar:</span>
+      <div class="chip active" onclick="filterRows('pdv','all',this)">Todos</div>
+      <div class="chip" onclick="filterRows('pdv','v1',this)">Somente V1</div>
+      <div class="chip" onclick="filterRows('pdv','v2',this)">Somente V2</div>
+    </div>
     <div class="table-wrap">
-      <table id="main-table">
+      <table>
         <thead>
           <tr>
             <th style="min-width:140px">PDV</th>
-            <th class="center" style="min-width:60px">Versão</th>
-            <th class="center version-v1">PIN</th>
-            <th class="center version-v1">Pular PIN</th>
-            <th class="center version-v1">CPF</th>
-            <th class="center version-v1">Gera bônus</th>
-            <th class="center version-v1" style="min-width:80px">SKU/Cat./Fab.</th>
-            <th class="center version-v1" style="min-width:90px">Segmentação</th>
-            <th class="center version-v1">Pgto.</th>
-            <th class="center version-v1" style="min-width:80px">Canal venda</th>
-            <th class="center version-v1">Parcelas</th>
-            <th class="center version-v1">Entrega</th>
-            <th class="center version-v1" style="min-width:80px">Remarcados</th>
-            <th class="center version-v1" style="min-width:75px">Bloq. SKU</th>
-            <th class="center version-v1">Síncrono</th>
-            <th class="center version-v1">Assíncrono</th>
-            <th class="center version-v1" style="min-width:80px">Aviso perda</th>
-            <th class="center version-v1" style="min-width:75px">Valor mín.</th>
+            <th class="center">Versão</th>
+            <th class="center v1">PIN</th>
+            <th class="center v1">Pular PIN</th>
+            <th class="center v1">CPF</th>
+            <th class="center v1">Gera bônus</th>
+            <th class="center v1" style="min-width:80px">SKU/Cat./Fab.</th>
+            <th class="center v1" style="min-width:90px">Segmentação</th>
+            <th class="center v1">Pgto.</th>
+            <th class="center v1">Parcelas</th>
+            <th class="center v1">Entrega</th>
+            <th class="center v1" style="min-width:80px">Remarcados</th>
+            <th class="center v1" style="min-width:75px">Bloq. SKU</th>
+            <th class="center v1">Síncrono</th>
+            <th class="center v1">Assíncrono</th>
+            <th class="center v1" style="min-width:80px">Aviso perda</th>
           </tr>
         </thead>
-        <tbody id="tbody"></tbody>
+        <tbody id="tbody-pdv"></tbody>
       </table>
     </div>
-
     <div class="legend">
-      <div class="legend-item">
-        <div class="badge-yes"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
-        <span>Suportado</span>
-      </div>
-      <div class="legend-item">
-        <div class="badge-no"><svg viewBox="0 0 10 10"><line x1="2" y1="5" x2="8" y2="5"/></svg></div>
-        <span>Não suportado</span>
-      </div>
-      <div class="legend-item">
-        <div class="badge-na">—</div>
-        <span>Não mapeado</span>
-      </div>
+      <div class="legend-item"><div class="badge-yes"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div><span>Suportado</span></div>
+      <div class="legend-item"><div class="badge-no"><svg viewBox="0 0 10 10"><line x1="2" y1="5" x2="8" y2="5"/></svg></div><span>Não suportado</span></div>
+      <div class="legend-item"><div class="badge-maybe"><span>?</span></div><span>A verificar</span></div>
+      <div class="legend-item"><div class="badge-na">—</div><span>Não mapeado</span></div>
     </div>
   </div>
 
-  <!-- DIFF -->
-  <div id="view-diff" class="view">
+  <!-- ========== E-COMMERCE ========== -->
+  <div id="view-ecom" class="view">
+    <div class="summary-row">
+      <div class="stat-card"><div class="num blue">2</div><div class="lbl">Plataformas V1</div></div>
+      <div class="stat-card"><div class="num green">7</div><div class="lbl">Plataformas V2</div></div>
+      <div class="stat-card"><div class="num">11</div><div class="lbl">Features mapeadas</div></div>
+    </div>
+    <div class="filters">
+      <span class="filter-label">Filtrar:</span>
+      <div class="chip active" onclick="filterRows('ecom','all',this)">Todos</div>
+      <div class="chip" onclick="filterRows('ecom','v1',this)">Somente V1</div>
+      <div class="chip" onclick="filterRows('ecom','v2',this)">Somente V2</div>
+      <div class="chip" onclick="filterRows('ecom','prod',this)">Em produção</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="min-width:130px">Plataforma</th>
+            <th class="center">Versão</th>
+            <th class="center">Status</th>
+            <th class="center v2" style="min-width:80px">Modal no site</th>
+            <th class="center v1">Cupom</th>
+            <th class="center v2" style="min-width:75px">Uso Parcial</th>
+            <th class="center v2" style="min-width:80px">Valid. PIN</th>
+            <th class="center v1" style="min-width:80px">Bloq. SKU</th>
+            <th class="center v1" style="min-width:90px">Bloq. Coleção</th>
+            <th class="center v1" style="min-width:100px">Bloq. Seller</th>
+            <th class="center v1" style="min-width:90px">Bloq. Remasc.</th>
+            <th class="center v2" style="min-width:90px">Msg. Custom</th>
+            <th class="center v2" style="min-width:85px">Acúmulo Bônus</th>
+            <th class="center v2" style="min-width:90px">Recursos Extra</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-ecom"></tbody>
+      </table>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="badge-yes"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div><span>Suportado</span></div>
+      <div class="legend-item"><div class="badge-no"><svg viewBox="0 0 10 10"><line x1="2" y1="5" x2="8" y2="5"/></svg></div><span>Não suportado</span></div>
+      <div class="legend-item"><div class="badge-maybe"><span>?</span></div><span>A verificar</span></div>
+    </div>
+  </div>
+
+  <!-- ========== DIFF PDV ========== -->
+  <div id="view-diff-pdv" class="view">
     <table class="diff-table" style="width:100%;border-collapse:collapse;font-size:13px;">
       <thead>
         <tr style="border-bottom:0.5px solid var(--border)">
           <th style="text-align:left;padding:8px 12px;font-size:12px;font-weight:500;color:var(--text2)">Feature</th>
           <th style="text-align:center;padding:8px 12px;font-size:12px;font-weight:500;color:var(--blue-text)">V1 (14 PDVs)</th>
-          <th style="text-align:center;padding:8px 12px;font-size:12px;font-weight:500;color:var(--green-text)">V2 (2 mapeados)</th>
+          <th style="text-align:center;padding:8px 12px;font-size:12px;font-weight:500;color:var(--green-text)">V2 (5 PDVs)</th>
           <th style="text-align:center;padding:8px 12px;font-size:12px;font-weight:500;color:var(--text2)">Status</th>
         </tr>
       </thead>
-      <tbody id="diff-tbody"></tbody>
+      <tbody id="diff-pdv-tbody"></tbody>
     </table>
   </div>
 
-  <footer>CRMBonus · Integrations · gerado em <span id="gen-date"></span></footer>
+  <!-- ========== DIFF E-COMMERCE ========== -->
+  <div id="view-diff-ecom" class="view">
+    <table class="diff-table" style="width:100%;border-collapse:collapse;font-size:13px;">
+      <thead>
+        <tr style="border-bottom:0.5px solid var(--border)">
+          <th style="text-align:left;padding:8px 12px;font-size:12px;font-weight:500;color:var(--text2)">Feature</th>
+          <th style="text-align:center;padding:8px 12px;font-size:12px;font-weight:500;color:var(--blue-text)">V1 (2 plataformas)</th>
+          <th style="text-align:center;padding:8px 12px;font-size:12px;font-weight:500;color:var(--green-text)">V2 (7 plataformas)</th>
+          <th style="text-align:center;padding:8px 12px;font-size:12px;font-weight:500;color:var(--text2)">Status</th>
+        </tr>
+      </thead>
+      <tbody id="diff-ecom-tbody"></tbody>
+    </table>
+  </div>
+
+  <footer>CRMBonus · Integrations · <span id="gen-date"></span></footer>
 </div>
 
 <script>
-const features = [
+// ─── PDV DATA ───
+const pdvFeatures = [
   {key:'pin',        label:'Validação por PIN'},
   {key:'skip_pin',   label:'Pular validação de PIN'},
   {key:'cpf',        label:'Validação por CPF'},
   {key:'bonus',      label:'Geração de bônus'},
-  {key:'sku',        label:'Campanhas por SKU / cat. / fab.'},
+  {key:'sku',        label:'Campanhas por SKU/cat./fab.'},
   {key:'seg',        label:'Segmentação de audiência'},
   {key:'pgto',       label:'Por método de pagamento'},
-  {key:'canal',      label:'Por canal de venda'},
   {key:'parcelas',   label:'Por nº de parcelas'},
   {key:'entrega',    label:'Por forma de entrega'},
-  {key:'remarcados', label:'Resgate em produtos remarcados'},
+  {key:'remarcados', label:'Resgate em remarcados'},
   {key:'bloq_sku',   label:'Bloqueio de resgate por SKU'},
   {key:'sinc',       label:'Envio de vendas (síncrono)'},
   {key:'assinc',     label:'Envio de vendas (assíncrono)'},
   {key:'aviso',      label:'Aviso de perda de bônus'},
-  {key:'valmin',     label:'Valor mínimo — mensageria'},
 ];
 
-const v1_pdvs = [
-  {name:'Linx Mircovix',    data:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',canal:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'n',valmin:'n'}},
-  {name:'Linx POS',         data:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',canal:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y',valmin:'n'}},
-  {name:'Linx Seta Digital',data:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',canal:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y',valmin:'n'}},
-  {name:'CIGAM',            data:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',canal:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y',valmin:'n'}},
-  {name:'VarejoOnline',     data:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',canal:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y',valmin:'n'}},
-  {name:'Capta',            data:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',canal:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y',valmin:'n'}},
-  {name:'Shop Control 9',   data:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',canal:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y',valmin:'n'}},
-  {name:'Totvs Moda',       data:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',canal:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y',valmin:'n'}},
-  {name:'UPDI',             data:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',canal:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y',valmin:'n'}},
-  {name:'PRESENCE',         data:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',canal:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y',valmin:'n'}},
-  {name:'Totvs Protheus',   data:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',canal:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y',valmin:'n'}},
-  {name:'VIP System',       data:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',canal:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y',valmin:'n'}},
-  {name:'Data System',      data:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',canal:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y',valmin:'n'}},
-  {name:'Conecto',          data:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',canal:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y',valmin:'n'}},
+const pdvRows = [
+  {name:'Linx Mircovix',    v:'v1', d:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'n'}},
+  {name:'Linx POS',         v:'v1', d:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y'}},
+  {name:'Linx Seta Digital', v:'v1',d:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y'}},
+  {name:'CIGAM',            v:'v1', d:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y'}},
+  {name:'VarejoOnline',     v:'v1', d:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y'}},
+  {name:'Capta',            v:'v1', d:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y'}},
+  {name:'Shop Control 9',   v:'v1', d:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y'}},
+  {name:'Totvs Moda',       v:'v1', d:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y'}},
+  {name:'UPDI',             v:'v1', d:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y'}},
+  {name:'PRESENCE',         v:'v1', d:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y'}},
+  {name:'Totvs Protheus',   v:'v1', d:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y'}},
+  {name:'VIP System',       v:'v1', d:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y'}},
+  {name:'Data System',      v:'v1', d:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y'}},
+  {name:'Conecto',          v:'v1', d:{pin:'y',skip_pin:'y',cpf:'n',bonus:'y',sku:'n',seg:'n',pgto:'n',parcelas:'n',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y'}},
+  {name:'Linx Mircovix',    v:'v2', d:{pin:'y',skip_pin:'y',cpf:'y',bonus:'y',sku:'y',seg:'y',pgto:'y',parcelas:'y',entrega:'y',remarcados:'y',bloq_sku:'y',sinc:'y',assinc:'n',aviso:'n'}},
+  {name:'Linx POS',         v:'v2', d:{pin:'y',skip_pin:'y',cpf:'y',bonus:'y',sku:'y',seg:'y',pgto:'y',parcelas:'y',entrega:'y',remarcados:'y',bloq_sku:'y',sinc:'y',assinc:'y',aviso:'y'}},
+  {name:'Linx Seta Digital', v:'v2',d:{pin:'y',skip_pin:'y',cpf:'y',bonus:'y',sku:'?',seg:'y',pgto:'y',parcelas:'y',entrega:'y',remarcados:'y',bloq_sku:'y',sinc:'n',assinc:'?',aviso:'y'}},
+  {name:'Linx Store X',     v:'v2', d:{pin:'y',skip_pin:'y',cpf:'y',bonus:'y',sku:'n',seg:'n',pgto:'y',parcelas:'y',entrega:'y',remarcados:'y',bloq_sku:'y',sinc:'n',assinc:'y',aviso:'y'}},
+  {name:'Maqplan',          v:'v2', d:{pin:'y',skip_pin:'y',cpf:'y',bonus:'y',sku:'n',seg:'n',pgto:'y',parcelas:'y',entrega:'n',remarcados:'y',bloq_sku:'n',sinc:'y',assinc:'n',aviso:'y'}},
 ];
 
-const v2_pdvs = [
-  {name:'Linx Mircovix',     data:{pin:'y',skip_pin:'y',cpf:'y',bonus:'y',sku:'y',seg:'y',pgto:'y',canal:'y',parcelas:'y',entrega:'y',remarcados:'y',bloq_sku:'y',sinc:'y',assinc:'n',aviso:'y',valmin:'n'}},
-  {name:'Linx POS',          data:{pin:'y',skip_pin:'y',cpf:'y',bonus:'y',sku:'y',seg:'y',pgto:'y',canal:'y',parcelas:'y',entrega:'y',remarcados:'y',bloq_sku:'y',sinc:'y',assinc:'y',aviso:'y',valmin:'y'}},
-  {name:'Linx Seta Digital',  data:null},
-  {name:'Linx Store X',       data:null},
-  {name:'Maqplan',            data:null},
+// ─── ECOM DATA ───
+const ecomFeatures = [
+  {key:'modal',    label:'Modal no site'},
+  {key:'cupom',    label:'Cupom'},
+  {key:'parcial',  label:'Uso Parcial'},
+  {key:'pin',      label:'Validação PIN'},
+  {key:'bloq_sku', label:'Bloqueio SKU'},
+  {key:'bloq_col', label:'Bloqueio Coleção'},
+  {key:'bloq_sel', label:'Bloqueio Seller'},
+  {key:'bloq_rem', label:'Bloqueio Remarcados'},
+  {key:'msg',      label:'Mensagens Custom'},
+  {key:'acumulo',  label:'Acúmulo de Bônus'},
+  {key:'extra',    label:'Recursos Extras'},
 ];
 
+const ecomRows = [
+  {name:'VTEX',         v:'v1', status:'prod', d:{modal:'n',cupom:'y',parcial:'n',pin:'n',bloq_sku:'y',bloq_col:'y',bloq_sel:'y',bloq_rem:'n',msg:'n',acumulo:'y',extra:'na'}},
+  {name:'Shopify',      v:'v1', status:'prod', d:{modal:'n',cupom:'y',parcial:'n',pin:'n',bloq_sku:'n',bloq_col:'n',bloq_sel:'n',bloq_rem:'n',msg:'n',acumulo:'n',extra:'na'}},
+  {name:'Magento',      v:'v2', status:'prod', d:{modal:'y',cupom:'n',parcial:'y',pin:'y',bloq_sku:'n',bloq_col:'n',bloq_sel:'n',bloq_rem:'n',msg:'y',acumulo:'n',extra:'y'}},
+  {name:'Nuvemshop',    v:'v2', status:'prod', d:{modal:'y',cupom:'n',parcial:'y',pin:'y',bloq_sku:'n',bloq_col:'n',bloq_sel:'n',bloq_rem:'n',msg:'y',acumulo:'y',extra:'y'}},
+  {name:'VTEX Sales App',v:'v2',status:'prod', d:{modal:'?',cupom:'n',parcial:'?',pin:'?',bloq_sku:'?',bloq_col:'?',bloq_sel:'?',bloq_rem:'?',msg:'?',acumulo:'?',extra:'?'}},
+  {name:'Tray',         v:'v2', status:'prog', d:{modal:'?',cupom:'n',parcial:'?',pin:'?',bloq_sku:'?',bloq_col:'?',bloq_sel:'?',bloq_rem:'?',msg:'?',acumulo:'?',extra:'?'}},
+  {name:'JetCommerce',  v:'v2', status:'prod', d:{modal:'y',cupom:'n',parcial:'y',pin:'n',bloq_sku:'n',bloq_col:'n',bloq_sel:'n',bloq_rem:'n',msg:'y',acumulo:'n',extra:'y'}},
+  {name:'VTEX',         v:'v2', status:'prod', d:{modal:'y',cupom:'n',parcial:'y',pin:'y',bloq_sku:'n',bloq_col:'y',bloq_sel:'y',bloq_rem:'y',msg:'y',acumulo:'y',extra:'y'}},
+  {name:'WAKE',         v:'v2', status:'prod', d:{modal:'y',cupom:'n',parcial:'y',pin:'y',bloq_sku:'y',bloq_col:'y',bloq_sel:'y',bloq_rem:'y',msg:'y',acumulo:'y',extra:'y'}},
+];
+
+// ─── ICON ───
 function icon(v) {
-  if (v === 'y') return `<span class="badge-yes"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>`;
-  if (v === 'n') return `<span class="badge-no"><svg viewBox="0 0 10 10"><line x1="2" y1="5" x2="8" y2="5"/></svg></span>`;
+  if (v==='y') return `<span class="badge-yes"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>`;
+  if (v==='n') return `<span class="badge-no"><svg viewBox="0 0 10 10"><line x1="2" y1="5" x2="8" y2="5"/></svg></span>`;
+  if (v==='?') return `<span class="badge-maybe"><span>?</span></span>`;
   return `<span class="badge-na">—</span>`;
 }
 
-let showRows = 'all';
-
-function buildMatrix() {
-  const tbody = document.getElementById('tbody');
+// ─── BUILD PDV TABLE ───
+let pdvFilter = 'all';
+function buildPDV() {
+  const tbody = document.getElementById('tbody-pdv');
   tbody.innerHTML = '';
-  const allRows = [
-    ...v1_pdvs.map(p => ({...p, version:'v1'})),
-    ...v2_pdvs.map(p => ({...p, version:'v2'})),
-  ];
-  allRows.forEach(p => {
-    const isV2 = p.version === 'v2';
-    const hidden = (showRows === 'v1only' && isV2) || (showRows === 'v2' && !isV2) ? 'hidden' : '';
-    const vTag = `<span class="vtag ${p.version}">${p.version.toUpperCase()}</span>`;
-    const cells = features.map(f => {
-      const val = p.data ? (p.data[f.key] || '?') : 'na';
-      return `<td class="center">${icon(val)}</td>`;
-    }).join('');
-    tbody.innerHTML += `<tr class="${hidden}" data-version="${p.version}">
-      <td class="pdv-name">${p.name}</td>
-      <td class="center">${vTag}</td>
+  pdvRows.forEach(r => {
+    const hide = (pdvFilter==='v1' && r.v==='v2') || (pdvFilter==='v2' && r.v==='v1') ? 'hidden' : '';
+    const cells = pdvFeatures.map(f => `<td class="center">${icon(r.d[f.key]||'na')}</td>`).join('');
+    tbody.innerHTML += `<tr class="${hide}" data-v="${r.v}">
+      <td class="name">${r.name}</td>
+      <td class="center"><span class="vtag ${r.v}">${r.v.toUpperCase()}</span></td>
       ${cells}
     </tr>`;
   });
 }
 
-function buildDiff() {
-  const tbody = document.getElementById('diff-tbody');
+// ─── BUILD ECOM TABLE ───
+let ecomFilter = 'all';
+function buildEcom() {
+  const tbody = document.getElementById('tbody-ecom');
   tbody.innerHTML = '';
-  const v2mapped = v2_pdvs.filter(p => p.data);
-  features.forEach(f => {
-    const v1sup = v1_pdvs.filter(p => p.data && p.data[f.key] === 'y').length;
-    const v2sup = v2mapped.filter(p => p.data[f.key] === 'y').length;
-    const isNew = v1sup === 0 && v2sup > 0;
-    const improved = !isNew && v2sup > v1sup;
-    let badge, rowClass = '';
-    if (isNew) { badge = `<span class="diff-indicator new-feature">Nova na V2</span>`; rowClass = 'gain'; }
-    else if (improved) { badge = `<span class="diff-indicator new-feature">Expandido</span>`; rowClass = 'gain'; }
-    else { badge = `<span class="diff-indicator same-feature">Igual</span>`; }
-
-    const c1 = v1sup === 0
-      ? icon('n')
-      : `<span class="count-v1">${v1sup}/${v1_pdvs.length}</span>`;
-    const c2 = v2sup === 0
-      ? icon('n')
-      : `<span class="count-v2">${v2sup}/${v2mapped.length}</span>`;
-
-    tbody.innerHTML += `<tr class="${rowClass}">
-      <td class="feat-col">${f.label}</td>
-      <td style="text-align:center">${c1}</td>
-      <td style="text-align:center">${c2}</td>
-      <td style="text-align:center">${badge}</td>
+  ecomRows.forEach(r => {
+    const hide = (ecomFilter==='v1' && r.v==='v2') || (ecomFilter==='v2' && r.v==='v1') || (ecomFilter==='prod' && r.status!=='prod') ? 'hidden' : '';
+    const stag = r.status==='prod'
+      ? `<span class="stag prod">produção</span>`
+      : `<span class="stag prog">progresso</span>`;
+    const cells = ecomFeatures.map(f => `<td class="center">${icon(r.d[f.key]||'na')}</td>`).join('');
+    tbody.innerHTML += `<tr class="${hide}" data-v="${r.v}" data-status="${r.status}">
+      <td class="name">${r.name}</td>
+      <td class="center"><span class="vtag ${r.v}">${r.v.toUpperCase()}</span></td>
+      <td class="center">${stag}</td>
+      ${cells}
     </tr>`;
   });
 }
 
-function filterPDV(type, el) {
-  document.querySelectorAll('.filters .chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  showRows = type;
-  buildMatrix();
+// ─── BUILD DIFF PDV ───
+function buildDiffPDV() {
+  const tbody = document.getElementById('diff-pdv-tbody');
+  tbody.innerHTML = '';
+  const v1rows = pdvRows.filter(r=>r.v==='v1');
+  const v2rows = pdvRows.filter(r=>r.v==='v2');
+  pdvFeatures.forEach(f => {
+    const v1sup = v1rows.filter(r=>r.d[f.key]==='y').length;
+    const v2sup = v2rows.filter(r=>r.d[f.key]==='y').length;
+    const isNew = v1sup===0 && v2sup>0;
+    const improved = !isNew && v2sup>v1sup;
+    let badge, rowClass='';
+    if (isNew)     { badge=`<span class="diff-indicator new-feat">Nova na V2</span>`; rowClass='gain'; }
+    else if(improved){ badge=`<span class="diff-indicator new-feat">Expandido</span>`; rowClass='gain'; }
+    else             { badge=`<span class="diff-indicator same-feat">Igual</span>`; }
+    const c1 = v1sup===0 ? icon('n') : `<span class="count-v1">${v1sup}/${v1rows.length}</span>`;
+    const c2 = v2sup===0 ? icon('n') : `<span class="count-v2">${v2sup}/${v2rows.length}</span>`;
+    tbody.innerHTML += `<tr class="${rowClass}"><td style="padding:7px 12px;font-size:13px">${f.label}</td><td style="text-align:center;padding:7px 12px">${c1}</td><td style="text-align:center;padding:7px 12px">${c2}</td><td style="text-align:center;padding:7px 12px">${badge}</td></tr>`;
+  });
 }
 
-function switchTab(t, el) {
-  document.querySelectorAll('.tab').forEach(e => e.classList.remove('active'));
-  document.querySelectorAll('.view').forEach(e => e.classList.remove('active'));
+// ─── BUILD DIFF ECOM ───
+function buildDiffEcom() {
+  const tbody = document.getElementById('diff-ecom-tbody');
+  tbody.innerHTML = '';
+  const v1rows = ecomRows.filter(r=>r.v==='v1');
+  const v2rows = ecomRows.filter(r=>r.v==='v2');
+  ecomFeatures.forEach(f => {
+    const v1sup = v1rows.filter(r=>r.d[f.key]==='y').length;
+    const v2sup = v2rows.filter(r=>r.d[f.key]==='y').length;
+    const isNew = v1sup===0 && v2sup>0;
+    const improved = !isNew && v2sup>v1sup;
+    let badge, rowClass='';
+    if (isNew)      { badge=`<span class="diff-indicator new-feat">Nova na V2</span>`; rowClass='gain'; }
+    else if(improved){ badge=`<span class="diff-indicator new-feat">Expandido</span>`; rowClass='gain'; }
+    else             { badge=`<span class="diff-indicator same-feat">Igual</span>`; }
+    const c1 = v1sup===0 ? icon('n') : `<span class="count-v1">${v1sup}/${v1rows.length}</span>`;
+    const c2 = v2sup===0 ? icon('n') : `<span class="count-v2">${v2sup}/${v2rows.length}</span>`;
+    tbody.innerHTML += `<tr class="${rowClass}"><td style="padding:7px 12px;font-size:13px">${f.label}</td><td style="text-align:center;padding:7px 12px">${c1}</td><td style="text-align:center;padding:7px 12px">${c2}</td><td style="text-align:center;padding:7px 12px">${badge}</td></tr>`;
+  });
+}
+
+// ─── FILTERS ───
+function filterRows(table, type, el) {
+  const prefix = table==='pdv' ? 'pdv' : 'ecom';
+  document.querySelectorAll(`#view-${prefix} .chip`).forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('view-' + t).classList.add('active');
+  if (table==='pdv') { pdvFilter=type; buildPDV(); }
+  else               { ecomFilter=type; buildEcom(); }
+}
+
+// ─── TABS ───
+function switchTab(t, el) {
+  document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(e=>e.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('view-'+t).classList.add('active');
 }
 
 document.getElementById('gen-date').textContent = new Date().toLocaleDateString('pt-BR');
-buildMatrix();
-buildDiff();
+buildPDV();
+buildEcom();
+buildDiffPDV();
+buildDiffEcom();
 </script>
 </body>
 </html>
